@@ -37,6 +37,77 @@ CREATE TABLE [dbo].[Dim_Product]
     [Atr_Size] NVARCHAR(200) NULL, 
     [Atr_Taste] NVARCHAR(200) NULL, 
     [Id_Brand] NVARCHAR(50) NULL, 
-    CONSTRAINT [FK_Dim_Product_Dim_Brand] FOREIGN KEY ([Id_Brand]) REFERENCES [Dim_Brand]([Id_Brand]), 
-    
+    CONSTRAINT [FK_Dim_Product_Dim_Brand] FOREIGN KEY ([Id_Brand]) REFERENCES [Dim_Brand]([Id_Brand]),  
 )
+
+CREATE TABLE [dbo].[Fact_001]
+(
+	[ID_Client] NVARCHAR(50) NOT NULL , 
+    [Id_Product] NVARCHAR(50) NOT NULL, 
+    [Id_Organization] NVARCHAR(50) NOT NULL, 
+    [Id_Factory] NVARCHAR(50) NOT NULL, 
+    [Id_Day] NVARCHAR(50) NOT NULL, 
+    [Billing] FLOAT NULL, 
+    [Tax] FLOAT NULL, 
+    [Variable_Cost] FLOAT NULL, 
+    [Sales_Quantity] FLOAT NULL, 
+    [Unit_Sold] FLOAT NULL, 
+    PRIMARY KEY ([Id_Client], [Id_Product], [Id_Organization], [Id_Factory], [Id_Day]), 
+    CONSTRAINT [FK_Fato_001_Dim_Client] FOREIGN KEY ([Id_Client]) REFERENCES [Dim_Client]([Id_Client]), 
+    CONSTRAINT [FK_Fato_001_Dim_Product] FOREIGN KEY ([Id_Product]) REFERENCES [Dim_Product]([Id_Product]),
+    CONSTRAINT [FK_Fato_001_Dim_Organization] FOREIGN KEY ([Id_Organization]) REFERENCES [Dim_Organization]([Id_Son]),
+    CONSTRAINT [FK_Fato_001_Dim_Factory] FOREIGN KEY ([Id_Factory]) REFERENCES [Dim_Factory]([Id_Factory]),
+    CONSTRAINT [FK_Fato_001_Dim_Time] FOREIGN KEY ([Id_Day]) REFERENCES [Dim_Time]([Id_Day])
+)
+
+CREATE TABLE [dbo].[Fact_002]
+(
+[Id_Client] NVARCHAR(50) NOT NULL , 
+    [Id_Product] NVARCHAR(50) NOT NULL, 
+    [Id_Factory] NVARCHAR(50) NOT NULL, 
+    [Id_Day] NVARCHAR(50) NOT NULL, 
+    [Freight] FLOAT NULL, 
+    PRIMARY KEY ([Id_Client], [Id_Product], [Id_Factory], [Id_Day]), 
+    CONSTRAINT [FK_Fato_002_Dim_Client] FOREIGN KEY ([Id_Client]) REFERENCES [Dim_Client]([Id_Client]), 
+    CONSTRAINT [FK_Fato_002_Dim_Product] FOREIGN KEY ([Id_Product]) REFERENCES [Dim_Product]([Id_Product]),
+    CONSTRAINT [FK_Fato_002_Dim_Factory] FOREIGN KEY ([Id_Factory]) REFERENCES [Dim_Factory]([Id_Factory]),
+    CONSTRAINT [FK_Fato_002_Dim_Time] FOREIGN KEY ([Id_Day]) REFERENCES [Dim_Time]([Id_Day])
+)
+
+CREATE TABLE [dbo].[Fact_003]
+(
+	[Id_Factory] NVARCHAR(50) NOT NULL, 
+    [Id_Day] NVARCHAR(50) NOT NULL, 
+    [Fixed_Cost] FLOAT NULL, 
+    PRIMARY KEY ([Id_Factory], [Id_Day]), 
+       CONSTRAINT [FK_Fato_003_Dim_Factory] FOREIGN KEY ([Id_Factory]) REFERENCES [Dim_Factory]([Id_Factory]),
+    CONSTRAINT [FK_Fato_003_Dim_Time] FOREIGN KEY ([Id_Day]) REFERENCES [Dim_Time]([Id_Day])
+)
+
+CREATE TABLE [dbo].[Fact_004]
+
+(
+[Id_Client] NVARCHAR(50) NOT NULL , 
+    [Id_Product] NVARCHAR(50) NOT NULL, 
+    [Id_Organization] NVARCHAR(50) NOT NULL, 
+    [Id_Day] NVARCHAR(50) NOT NULL, 
+    [Billing_Target] FLOAT NULL, 
+    PRIMARY KEY ([Id_Client], [Id_Product], [Id_Organization], [Id_Day]), 
+    CONSTRAINT [FK_Fato_004_Dim_Client] FOREIGN KEY ([Id_Client]) REFERENCES [Dim_Client]([Id_Client]), 
+    CONSTRAINT [FK_Fato_004_Dim_Product] FOREIGN KEY ([Id_Product]) REFERENCES [Dim_Product]([Id_Product]),
+    CONSTRAINT [FK_Fato_004_Dim_Organization] FOREIGN KEY ([Id_Organization]) REFERENCES [Dim_Organization]([Id_Son]),
+    CONSTRAINT [FK_Fato_004_Dim_Time] FOREIGN KEY ([Id_Day]) REFERENCES [Dim_Time]([Id_Day])
+)
+
+CREATE TABLE [dbo].[Fact_005]
+(
+	[Id_Product] NVARCHAR(50) NOT NULL, 
+    [Id_Factory] NVARCHAR(50) NOT NULL, 
+    [Id_Day] NVARCHAR(50) NOT NULL, 
+    [Billing_Target] FLOAT NULL, 
+    PRIMARY KEY ([Id_Product], [Id_Factory], [Id_Day]), 
+    CONSTRAINT [FK_Fato_005_Dim_Product] FOREIGN KEY ([Id_Product]) REFERENCES [Dim_Product]([Id_Product]),
+    CONSTRAINT [FK_Fato_005_Dim_Factory] FOREIGN KEY ([Id_Factory]) REFERENCES [Dim_Factory]([Id_Factory]),
+    CONSTRAINT [FK_Fato_005_Dim_Time] FOREIGN KEY ([Id_Day]) REFERENCES [Dim_Time]([Id_Day])
+)
+
