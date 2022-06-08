@@ -1,0 +1,42 @@
+CREATE TABLE [dbo].[Dim_Factory]
+(
+	[Id_Factory] NVARCHAR(50) NOT NULL PRIMARY KEY, 
+    [Desc_Factory] VARCHAR(200) NULL
+)
+CREATE TABLE [dbo].[Dim_Client]
+(
+    [Id_Client] NVARCHAR(50) NOT NULL PRIMARY KEY, 
+    [Desc_Client] NVARCHAR(200) NULL, 
+    [Id_City] NVARCHAR(50) NULL, 
+    [Desc_City] NVARCHAR(200) NULL,
+    [ID_State] NVARCHAR(50) NULL, 
+    [Desc_State] NVARCHAR(200) NULL,
+    [Id_Region] NVARCHAR(50) NULL, 
+    [Desc_Region] NVARCHAR(200) NULL,
+    [Id_Segment] NVARCHAR(50) NULL, 
+    [Desc_Segment] NVARCHAR(200) NULL
+)
+CREATE TABLE [dbo].[Dim_Category]
+(
+[Id_Category] NVARCHAR(50) NOT NULL PRIMARY KEY, 
+[Desc_Category] NVARCHAR(200) NULL
+	
+)
+CREATE TABLE [dbo].[Dim_Brand]
+(
+[Id_Brand] NVARCHAR(50) NOT NULL PRIMARY KEY, 
+    [Desc_Brand] NVARCHAR(200) NULL,
+    [Id_Category] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_Dim_Brand_Dim_Category] FOREIGN KEY ([Id_Category]) REFERENCES [Dim_Category]([Id_Category])
+ 
+)
+CREATE TABLE [dbo].[Dim_Product]
+(
+    [Id_Product] NVARCHAR(50) NOT NULL PRIMARY KEY, 
+    [Desc_Product] NVARCHAR(200) NULL, 
+    [Atr_Size] NVARCHAR(200) NULL, 
+    [Atr_Taste] NVARCHAR(200) NULL, 
+    [Id_Brand] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_Dim_Product_Dim_Brand] FOREIGN KEY ([Id_Brand]) REFERENCES [Dim_Brand]([Id_Brand]), 
+    
+)
